@@ -1,0 +1,7 @@
+{
+	"rust-analyzer.cargo.buildScripts.invocationLocation": "workspace",
+	"rust-analyzer.cargo.buildScripts.invocationStrategy": "once",
+	"rust-analyzer.completion.privateEditable.enable": true,
+	"rust-analyzer.inlayHints.closureReturnTypeHints.enable": "with_block",
+	"solidity.remappingsUnix": []
+}
