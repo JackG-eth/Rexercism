@@ -1,50 +1,29 @@
 
+use std::fmt;
 pub struct Clock {
     hours: i32,
     minutes: i32
 }
 
 impl Clock {
-    pub fn new(hours: i32, minutes: i32) -> Self {
-        let mut remainder = hours % 24;
-        let mut bonusHours = 0;
-        let mut actualMinutes = 0;
-        if minutes > 60 {
-            bonusHours = minutes/60;
-            actualMinutes = minutes % 60
-
+    pub fn new(hours: i32, minutes: i32) -> Clock {
+        let mut total_mins = hours * 60 + minutes;
+        if total_mins < 0 {
+            total_mins += (1 - total_mins / (24 * 60)) * 24 * 60
         }
-        remainder += bonusHours;
-        Self { hours: remainder, minutes: actualMinutes }
+        Clock { hours : (total_mins / 60) % 24, minutes : total_mins % 60 }
     }
-
-    pub fn to_string(&self) -> String {
-        if self.minutes < 10  && self.hours < 10 {
-            return format!(
-                "0{}:0{}",
-                &self.hours, &self.minutes
-            )
-        } else if self.minutes < 10 {
-            return format!(
-                "{}:0{}",
-                &self.hours, &self.minutes
-            )
-        } else if self.hours < 10 {
-            return format!(
-                "0{}:{}",
-                &self.hours, &self.minutes
-            )
-        }
-        return format!(
-            "{}:{}",
-            &self.hours, &self.minutes
-        )
-    }
-
-    pub fn add_minutes(&mut self, minutes: i32) {
-        self.minutes += minutes;
-    }
-
 
     
+
+    pub fn add_minutes(&self, minutes: i32) -> Clock {
+        Clock::new( self.hours , self.minutes + minutes)
+    }
+}
+
+
+impl fmt::Display for Clock {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { 
+        write!(f, "{:02}:{:02}", self.hours, self.minutes)
+    }
 }
